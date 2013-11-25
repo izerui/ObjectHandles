@@ -42,6 +42,8 @@
  **/
 package com.roguedevelopment.objecthandles
 {
+    import com.izerui.cursor.CursorManagerUtil;
+    
     import flash.display.DisplayObject;
     import flash.display.Sprite;
     import flash.events.EventDispatcher;
@@ -367,6 +369,7 @@ package com.roguedevelopment.objecthandles
 			
 			if( visualDisplay )
 			{
+				addCursorStyle(visualDisplay);
 	            visualDisplay.addEventListener( MouseEvent.MOUSE_DOWN, onComponentMouseDown, false, 0, true );
 	
 	            visualDisplay.addEventListener( SelectionEvent.SELECTED, handleSelection );
@@ -391,6 +394,12 @@ package com.roguedevelopment.objecthandles
             	constraints[dataModel] = customConstraints;
             }             
         }
+		
+		private function  addCursorStyle(ui:IEventDispatcher):void{
+			//设置鼠标样式
+			ui.addEventListener(MouseEvent.MOUSE_OVER,CursorManagerUtil.setCursor);
+			ui.addEventListener(MouseEvent.MOUSE_OUT,CursorManagerUtil.removeAllCursors);
+		}
         
         
         /**
@@ -1504,8 +1513,8 @@ package com.roguedevelopment.objecthandles
         protected function connectHandleEvents( handle:IHandle , descriptor:HandleDescription) : void
         {
             handle.addEventListener( MouseEvent.MOUSE_DOWN, onHandleDown );
-            
-            
+			//设置鼠标样式
+			addCursorStyle(handle);
         }
         
         protected function onHandleDown( event:MouseEvent):void
